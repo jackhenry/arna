@@ -9,6 +9,9 @@ import postcss from './postcss.config';
 export default defineConfig({
   optimizeDeps: {
     include: [
+      'codemirror',
+      'chroma-js',
+      'konva',
       '@arna/edge-bundler',
       '@arna/core',
       '@arna/renderer',
@@ -25,6 +28,13 @@ export default defineConfig({
           fs.writeFileSync('./bundle-analysis.txt', analysisString);
         },
       })],
+      output: {
+        manualChunks: {
+          codemirror: ['codemirror'],
+          'chroma-js': ['chroma-js'],
+          konva: ['konva'],
+        },
+      },
     },
   },
   plugins: [
