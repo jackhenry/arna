@@ -6,6 +6,10 @@
   @apply outline outline-1 outline-override-neutral-50/50
 }
 
+.konvajs-content > canvas:nth-child(1) {
+  @apply !p-2;
+}
+
 .CodeMirror {
   @apply !bg-override-neutral-900/30;
   @apply !outline outline-1 outline-override-neutral-50/50;

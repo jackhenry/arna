@@ -105,5 +105,5 @@
 <div
   bind:this={canvasElement}
   id="stage-parent"
-  class="outline-thin w-full mx-auto p-2 mb-4 flex items-center space-x-4 bg-override-neutral-900/30"
+  class="outline-thin w-full mx-auto mb-4 flex items-center space-x-4 bg-override-neutral-900/30"
 />
