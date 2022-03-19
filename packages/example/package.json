@@ -8,6 +8,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --force",
+    "build": "vite build --base=/arna/",
+    "clean": "rm -r ./dist/*",
     "check1": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {

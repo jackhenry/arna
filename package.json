@@ -10,8 +10,11 @@
   "author": "Jack Henry",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc --build && yarn build:example && cp -r ./packages/example/dist/* ./docs/",
+    "build:example": "yarn workspace example build",
     "edge-bundler": "yarn workspace edge-bundler",
+    "clean:docs": "rm -r ./docs/*",
+    "clean": "yarn clean:docs && yarn example clean",
     "example": "yarn workspace example"
   }
 }

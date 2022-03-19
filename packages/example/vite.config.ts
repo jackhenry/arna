@@ -13,11 +13,13 @@ export default defineConfig({
       // 'svelte-preprocess',
       // '@sveltejs/vite-plugin-svelte',
       '@arna/core',
-      '@arna/renderer'],
+      '@arna/renderer',
+      '@arna/edge-bundler',
+    ],
   },
   build: {
     commonjsOptions: {
-      include: [/core/, /renderer/, /node_modules/],
+      include: [/edge-bundler/, /core/, /renderer/, /node_modules/],
     },
   },
   plugins: [
