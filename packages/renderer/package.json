@@ -17,7 +17,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@arna/core": "^0.0.0"
+    "@arna/core": "^0.0.0",
+    "@arna/edge-bundler": "^0.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
