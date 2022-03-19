@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "composite": true, /* Enable constraints that allow a TypeScript project to be used with project references. */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "declarationDir": "./lib",
+    "rootDir": "./src", /* Specify the root folder within your source files. */
+    "outDir": "./lib", /* Specify an output folder for all emitted files. */
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./node_modules/*",
+    "./lib/*"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ],
+}

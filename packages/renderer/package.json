@@ -1,0 +1,31 @@
+{
+  "name": "@arna/renderer",
+  "version": "0.0.0",
+  "description": "Renderer interface used to extend Arna DSL core library",
+  "author": "Jack Henry <jack@jackerickson.net>",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/api.js",
+  "types": "lib/api.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@arna/core": "^0.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "typescript": "^4.6.2"
+  }
+}

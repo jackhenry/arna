@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+html, body, #root {
+}
+
+.no-ring {
+  @apply focus:ring-0 focus:ring-offset-0;
+  @apply focus-visible:ring-0 focus-visible:ring-offset-0;
+  @apply focus-visible:outline-0
+}
+
+.CodeMirror {
+  @apply !bg-override-neutral-900/30;
+  @apply !outline outline-1 outline-override-neutral-50/50;
+  @apply !h-[375px];
+}
+
+.CodeMirror-gutters {
+  @apply !bg-override-neutral-900/30
+}
+
+.cm-keyword {
+  @apply !text-override-red
+}
+
+.cm-property {
+  @apply !text-override-green/75
+}
+
+.cm-atom {
+  @apply !text-override-purple
+}
+
+.cm-variable {
+  @apply !text-override-yellow
+}
+
+.cm-def {
+  @apply !text-override-blue
+}

@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "./packages/cli",
+    "./packages/example",
+    "dist/*",
+    "node_modules/*",
+    "lib/*"
+  ],
+  "references": [
+    {
+      "path": "./packages/edge-bundler"
+    },
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/renderer"
+    }
+  ],
+  "files": []
+}

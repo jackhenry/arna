@@ -1,0 +1,17 @@
+{
+  "name": "arna",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "version": "0.0.0",
+  "description": "Monorepo for Arna Graph DSL",
+  "main": "index.js",
+  "author": "Jack Henry",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "edge-bundler": "yarn workspace edge-bundler",
+    "example": "yarn workspace example"
+  }
+}
