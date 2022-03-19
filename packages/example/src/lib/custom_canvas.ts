@@ -15,19 +15,13 @@ export default class CustomCanvas {
 
   private staticGroup: Konva.Group;
 
-  private infoGroup: Konva.Group;
-
-  private infoText: Konva.Text;
-
-  private infoToggle: Konva.Group;
-
-  private labels: Map<string, Konva.Group>;
+  private labels: Map<string, Konva.Text>;
 
   private transformer: Konva.Transformer;
 
   private stageConfig: Konva.StageConfig;
 
-  private bgColor: string;
+  private stageParent: HTMLDivElement;
 
   private prerenderer: ArnaPreRenderer;
 
@@ -39,6 +33,8 @@ export default class CustomCanvas {
 
   private nodeMappings;
 
+  private virtualWidth: number;
+
   constructor(
     graph: ArnaGraph,
     stageConfig: Konva.StageConfig,
@@ -47,6 +43,8 @@ export default class CustomCanvas {
   ) {
     this.graph = graph;
     this.stageConfig = stageConfig;
+    this.virtualWidth = stageConfig.width;
+    this.stageParent = document.getElementById('stage-parent') as HTMLDivElement;
     /**
      * Konva specific groups/layers/etc.
      */
@@ -54,12 +52,7 @@ export default class CustomCanvas {
     this.mainLayer = new Konva.Layer();
     this.staticGroup = new Konva.Group();
     this.transformer = new Konva.Transformer();
-    this.labels = new Map<string, Konva.Group>();
-    /**
-     * Styling variables
-     */
-    // this.bgColor = tailwindConfig.theme.extend.colors.override.bg;
-    this.bgColor = config.theme.extend.colors.override.bg;
+    this.labels = new Map<string, Konva.Text>();
 
     this.graphLayoutParameters = graphLayoutParameters;
     /**
@@ -73,12 +66,6 @@ export default class CustomCanvas {
     );
     this.renderParameters = this.prerenderer.runCalculations(this.bundlerParameters);
     this.nodeMappings = this.graph.nodeMappings();
-
-    // Init the info text label
-    this.infoToggle = new Konva.Group();
-    this.infoGroup = new Konva.Group();
-    this.infoText = new Konva.Text();
-    this.initInfoText();
   }
 
   getCanvasWidth(): number {
@@ -89,70 +76,15 @@ export default class CustomCanvas {
     return this.stage.height();
   }
 
-  initInfoText() {
-    const edgeCount = this.graph.edges.length;
-    const nodeCount = this.graph.nodes.length;
-    let labels = [
-      `Node Count: ${nodeCount}`,
-      `Edge Count: ${edgeCount}`,
-      `Layout Iterations: ${this.graphLayoutParameters.maxTicks}`,
-      `Force Coefficient (C): ${this.graphLayoutParameters.c}`,
-      `Max Repulsive Force Distance: ${this.graphLayoutParameters.maxRepulsiveDistance}`,
-      `Optimal Node Distance: ${this.graphLayoutParameters.optimalDistance}`,
-    ];
-
-    if (this.graphLayoutParameters.bundle) {
-      labels = labels.concat(labels, [
-        `Compatability Threshold: ${this.bundlerParameters.compatabilityThreshold}`,
-        `Initial Step Size: ${this.bundlerParameters.initialStepSize}`,
-        `Bundling Stiffness: ${this.bundlerParameters.bundlingStiffness}`,
-        `Initial Subdivision Rate: ${this.bundlerParameters.subdivisionRate}`,
-        `Initial Bundling Iterations: ${this.bundlerParameters.initialIterationCount}`,
-        `Bundling Iteration Depreciation: ${this.bundlerParameters.iterationDecreaseRate}`,
-      ]);
+  getResponsiveFontSize(): number {
+    if (this.stageParent.offsetWidth < 600) {
+      return 40;
     }
-    const width = (this.stageConfig.container as HTMLDivElement).offsetWidth;
 
-    const labelElements = labels.map((label) => new Konva.Text({
-      text: label,
-      fontSize: 12,
-      fontFamily: config.theme.fontFamily.mono,
-      fill: config.theme.extend.colors.override.fg,
-    }));
-
-    let maxWidth = -Infinity;
-    labelElements.forEach((element) => {
-      const elementWidth = element.textWidth;
-      maxWidth = elementWidth > maxWidth ? elementWidth : maxWidth;
-    });
-
-    labelElements.forEach((element, index) => {
-      element.x(width - maxWidth);
-      element.y(20 * (2 + index));
-    });
-
-    const toggle = new Konva.Text({
-      x: width - maxWidth,
-      y: 20,
-      text: 'Click to show parameters ⯈',
-      fontSize: 12,
-      fontFamily: config.theme.fontFamily.mono,
-      fill: config.theme.extend.colors.override.blue,
-    });
-
-    toggle.on('click', () => {
-      this.infoGroup.visible(!this.infoGroup.visible());
-      const newText = this.infoGroup.visible() ? 'Click to hide parameters ⯆' : 'Click to show parameters ⯈';
-      toggle.text(newText);
-    });
-
-    this.infoToggle.add(toggle);
-    this.infoGroup.add(...labelElements);
-    this.infoGroup.visible(false);
-    this.infoGroup.listening(false);
+    return 24;
   }
 
-  circle(x: number, y: number, radius: number, options: CircleOptions): Konva.Group {
+  private static circle(x: number, y: number, radius: number, options: CircleOptions): Konva.Group {
     const circleGroup = new Konva.Group();
     const fgCircle = new Konva.Circle({
       x,
@@ -165,7 +97,7 @@ export default class CustomCanvas {
       x,
       y,
       radius,
-      fill: this.bgColor,
+      fill: config.theme.extend.colors.override.bg,
       hitStrokeWidth: radius + 10,
     });
 
@@ -174,20 +106,15 @@ export default class CustomCanvas {
     return circleGroup;
   }
 
-  lineGroup(points: Point[], options?: LineOptions): Konva.Group {
+  private static lineGroup(points: Point[], options?: LineOptions): Konva.Group {
     const group: Konva.Group = new Konva.Group();
     for (let index = 0; index < points.length - 1; index++) {
       const point1 = points[index];
       const point2 = points[index + 1];
-      let lineWidth = 2;
-      try {
-        lineWidth = options?.lineWidth ? +options.lineWidth : 2;
-      } catch (conversionError) {
-        //
-      }
+      const lineWidth = options?.lineWidth ? +options.lineWidth : 2;
       const line = new Konva.Line({
         points: [point1.x, point1.y, point2.x, point2.y],
-        stroke: options?.color || '#eeeeee',
+        stroke: options?.color || config.theme.extend.colors.override.fg,
         strokeWidth: lineWidth,
       });
       group.add(line);
@@ -195,32 +122,31 @@ export default class CustomCanvas {
     return group;
   }
 
-  positionLabel(x: number, y: number, text: Konva.Text, backdrop: Konva.Rect) {
-    const textHeight = text.height();
-    const textWidth = text.width();
+  private positionLabel(x: number, y: number, text: Konva.Text) {
+    text.fontSize(this.getResponsiveFontSize());
+    const canvasScale = this.stage.scaleX();
+    const textWidth = text.textWidth * this.stage.scaleX();
+    let xPos = x * canvasScale;
 
-    const xPos = x;
-    const yPos = y;
+    // Prevent label from going off the right side of the screen
+    if (xPos + textWidth > this.stageParent.offsetWidth) {
+      xPos -= textWidth + (22 * this.stage.scaleX());
+    }
 
-    backdrop.width(textWidth + 20);
-    backdrop.height(textHeight + 10);
-    backdrop.x(xPos);
-    backdrop.y(yPos);
-
-    text.x(xPos + 10);
-    text.y(yPos + 5);
+    text.x(xPos / canvasScale);
+    text.y(y);
   }
 
-  label(text: string, x: number, y: number): Konva.Group {
+  label(text: string, x: number, y: number): Konva.Text {
     const { radius } = this.renderParameters;
     const labelY = y - radius - 20;
     const labelElement = new Konva.Text({
       y: y - radius - 20,
       text,
-      fontSize: 12,
+      fontSize: this.getResponsiveFontSize(),
       fontStyle: 'bold',
-      fontFamily: 'Inter, sans-serif',
-      fill: '#eeeeee',
+      fontFamily: '\'Source Code Pro\', monospace',
+      fill: config.theme.extend.colors.override.fg,
       align: 'center',
     });
     const { textWidth } = labelElement;
@@ -239,22 +165,7 @@ export default class CustomCanvas {
     labelElement.x(offsettedX);
     labelElement.y(offsettedY);
 
-    // Create a rectangular background for the text
-    const labelBackground = new Konva.Rect({
-      x: offsettedX - 10,
-      y: offsettedY - 5,
-      stroke: chroma(this.bgColor).darken(0.2).hex(),
-      strokeWidth: 2,
-      fill: this.bgColor,
-      width: textWidth + 20,
-      height: labelElement.height() + 10,
-    });
-
-    const labelGroup = new Konva.Group();
-    labelGroup.add(labelBackground);
-    labelGroup.add(labelElement);
-
-    return labelGroup;
+    return labelElement;
   }
 
   registerHighlightEvent(
@@ -268,9 +179,8 @@ export default class CustomCanvas {
     tailNodeElement.addEventListener('mouseenter touchstart', () => {
       // Make label visible
       const mousePos = this.staticGroup.getRelativePointerPosition();
-      const backdrop = tailLabel.children[0] as Konva.Rect;
-      const text = tailLabel.children[1] as Konva.Text;
-      this.positionLabel(mousePos.x, mousePos.y, text, backdrop);
+      const text = tailLabel;
+      this.positionLabel(mousePos.x, mousePos.y, text);
       tailLabel.visible(true);
 
       tailCircle.setAttr('previousFill', tailCircle.fill());
@@ -317,43 +227,27 @@ export default class CustomCanvas {
 
   registerScalingHandler() {
     const fitToParent = () => {
-      const container = this.stageConfig.container as HTMLDivElement;
+      const container = this.stageParent;
 
       const containerWidth = container.offsetWidth;
-      const scale = containerWidth / this.getCanvasWidth();
+      const scale = containerWidth / this.virtualWidth;
 
-      // Move info label position
-      // Update static graph elements
-      if (scale < this.stage.scaleX()) {
-        console.table({
-          containerWidth,
-          canvas: this.getCanvasWidth(),
-          scale,
-        });
-        this.stage.width(this.getCanvasWidth() * scale);
-        this.stage.height(this.getCanvasHeight() * scale);
-        this.stage.scale({ x: scale, y: scale });
-        let fontSize = 24;
-        if (containerWidth < 600) {
-          fontSize = 40;
-        }
-        if (containerWidth < 400) {
-          fontSize = 52;
-        }
-        [...Array.from(this.labels.values())].forEach((labelGroup) => {
-          const text = labelGroup.children[1] as Konva.Text;
-
-          text.fontSize(fontSize);
-        });
-        // this.stage.height(this.getCanvasHeight() * scale);
-        // this.stage.width(this.getCanvasWidth() * scale);
-        // this.stage.scale({ x: scale, y: scale });
-        console.log(`container width ${containerWidth}`);
-        console.log(`canvas width ${this.getCanvasWidth()}`);
+      this.stage.width(this.virtualWidth * scale);
+      this.stage.height(this.virtualWidth * scale);
+      this.stage.scale({ x: scale, y: scale });
+      let fontSize = 24;
+      if (containerWidth < 600) {
+        fontSize = 40;
       }
+      if (containerWidth < 400) {
+        fontSize = 52;
+      }
+      [...Array.from(this.labels.values())].forEach((text) => {
+        text.fontSize(fontSize);
+      });
     };
 
-    new ResizeObserver(fitToParent).observe(this.stageConfig.container as HTMLDivElement);
+    new ResizeObserver(fitToParent).observe(this.stageParent);
   }
 
   draw() {
@@ -366,7 +260,7 @@ export default class CustomCanvas {
       if (nodeMap.has(tail.identifier)) {
         tailElement = nodeMap.get(tail.identifier);
       } else {
-        tailElement = this.circle(
+        tailElement = CustomCanvas.circle(
           tail.positionX,
           tail.positionY,
           this.renderParameters.radius,
@@ -376,10 +270,10 @@ export default class CustomCanvas {
       }
 
       // Create the label for the tail element
-      const labelGroup = this.label(tail.options?.label || '', tail.positionX, tail.positionY);
-      labelGroup.visible(false);
-      labelGroup.listening(false);
-      this.labels.set(tail.identifier, labelGroup);
+      const label = this.label(tail.options?.label || '', tail.positionX, tail.positionY);
+      label.visible(false);
+      label.listening(false);
+      this.labels.set(tail.identifier, label);
 
       let highlightedElements: Konva.Group[] = [];
       mappings.forEach((mapping: any) => {
@@ -392,7 +286,7 @@ export default class CustomCanvas {
         } else if (edgeMap.has(headTailId)) {
           lineGroup = edgeMap.get(headTailId);
         } else {
-          lineGroup = this.lineGroup(mapping.edge, mapping.edgeOptions);
+          lineGroup = CustomCanvas.lineGroup(mapping.edge, mapping.edgeOptions);
           edgeMap.set(tailHeadId, lineGroup);
           edgeMap.set(headTailId, lineGroup);
         }
@@ -401,7 +295,7 @@ export default class CustomCanvas {
         if (nodeMap.has(head.identifier)) {
           headElement = nodeMap.get(head.identifier);
         } else {
-          headElement = this.circle(
+          headElement = CustomCanvas.circle(
             head.positionX,
             head.positionY,
             this.renderParameters.radius,
@@ -422,8 +316,6 @@ export default class CustomCanvas {
     this.mainLayer.add(this.transformer);
     this.transformer.add(this.staticGroup);
     this.mainLayer.add(this.staticGroup);
-    // this.mainLayer.add(this.infoGroup);
-    // this.mainLayer.add(this.infoToggle);
     this.stage.add(this.mainLayer);
 
     this.registerScalingHandler();
