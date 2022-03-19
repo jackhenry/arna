@@ -17,13 +17,13 @@
     "@arna/renderer": "^0.0.0",
     "chroma-js": "^2.4.2",
     "codemirror": "^5.65.2",
-    "konva": "^8.3.3",
-    "svelte": "^3.46.4",
-    "vite": "^2.8.6",
-    "svelte-preprocess": "^4.10.4",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.39"
+    "konva": "^8.3.3"
   },
   "devDependencies": {
+    "svelte": "^3.46.4",
+    "svelte-preprocess": "^4.10.4",
+    "vite": "^2.8.6",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.39",
     "@tsconfig/svelte": "^3.0.0",
     "@types/chroma-js": "^2.1.3",
     "@types/codemirror": "^5.60.5",
@@ -34,6 +34,7 @@
     "eslint": "^8.11.0",
     "eslint-plugin-svelte3": "^3.4.1",
     "postcss": "^8.4.11",
+    "rollup-plugin-analyzer": "^4.0.0",
     "svelte-check": "^2.4.5",
     "tailwindcss": "^3.0.23",
     "ts-node": "^10.7.0",

@@ -125,3 +125,5 @@ packages/*/node_modules
 packages/*/lib
 packages/*/dist
 packages/*/tsconfig.tsbuildinfo
+
+packages/example/bundle-analysis.txt
