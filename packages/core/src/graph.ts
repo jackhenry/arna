@@ -11,7 +11,6 @@ import {
   NodeMappings,
   OptionalGraphParameters,
 } from './types';
-import { getRandomFloatBounded } from './util';
 
 export class ArnaNode implements Node {
   public identifier: string;
@@ -33,11 +32,15 @@ export class ArnaNode implements Node {
     options: AdditionalNodeOptions,
   ) {
     this.identifier = identifier;
-    this.positionX = getRandomFloatBounded(-1 * maxRepulsiveDistance, maxVertexDisplacement);
-    this.positionY = getRandomFloatBounded(-1 * maxRepulsiveDistance, maxVertexDisplacement);
+    this.positionX = ArnaNode.getRandomFloatBounded(-1 * maxRepulsiveDistance, maxVertexDisplacement);
+    this.positionY = ArnaNode.getRandomFloatBounded(-1 * maxRepulsiveDistance, maxVertexDisplacement);
     this.forceX = 0;
     this.forceY = 0;
     this.options = options;
+  }
+
+  static getRandomFloatBounded(min: number, max: number): number {
+    return Math.random() * (min - max) + max;
   }
 }
 
