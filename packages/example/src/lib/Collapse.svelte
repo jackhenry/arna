@@ -50,10 +50,8 @@
     </div>
   </div>
   {#if show}
-    <div class="bg-override-neutral-900/75">
-      <div class="py-4">
-        <slot name="content" />
-      </div>
+    <div class="py-4 px-2">
+      <slot name="content" />
     </div>
   {/if}
 </div>
