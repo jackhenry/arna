@@ -38,7 +38,7 @@
 
 <div
   bind:this={parentElement}
-  class="rounded flex flex-col w-full p-4 bg-override-neutral-800/30 outline outline-1 outline-override-neutral-50/50"
+  class="rounded flex flex-col w-full p-4 mb-2 bg-override-neutral-800/30 outline-thin"
 >
   <textarea use:snippet={"graph Name [bundle] {"} />
   <span class="mt-2"

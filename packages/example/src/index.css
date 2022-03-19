@@ -2,13 +2,8 @@
 @tailwind utilities;
 @tailwind components;
 
-html, body, #root {
-}
-
-.no-ring {
-  @apply focus:ring-0 focus:ring-offset-0;
-  @apply focus-visible:ring-0 focus-visible:ring-offset-0;
-  @apply focus-visible:outline-0
+.outline-thin {
+  @apply outline outline-1 outline-override-neutral-50/50
 }
 
 .CodeMirror {

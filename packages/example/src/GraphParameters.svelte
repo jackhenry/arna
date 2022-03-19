@@ -17,7 +17,7 @@
 </script>
 
 <div
-  class="mb-4 rounded flex flex-col w-full text-neutral-200 font-mono bg-override-neutral-800/30 outline outline-1 outline-override-neutral-50/50"
+  class="mb-2 rounded flex flex-col w-full text-neutral-200 font-mono bg-override-neutral-900/30 outline-thin"
 >
   <Collapse>
     <span slot="label">Graph Layout Algorithm</span>
