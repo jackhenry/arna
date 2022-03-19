@@ -67,9 +67,9 @@
   });
 </script>
 
-<div class="w-full h-22">
+<div class="w-full h-22 mb-2">
   <textarea bind:this={editorElement} id="editor" />
-  <div class="flex flex-col items-center pt-2 pb-2">
+  <div class="flex flex-col items-center pt-2">
     <div class="flex">
       <Button
         onClick={handleGenerateRandom}
