@@ -14,7 +14,7 @@ html, body, #root {
 .CodeMirror {
   @apply !bg-override-neutral-900/30;
   @apply !outline outline-1 outline-override-neutral-50/50;
-  @apply !h-[375px];
+  @apply !max-h-[375px];
 }
 
 .CodeMirror-gutters {
