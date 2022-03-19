@@ -86,7 +86,7 @@ export default class CustomCanvas {
   }
 
   getCanvasHeight(): number {
-    return this.stage.width();
+    return this.stage.height();
   }
 
   initInfoText() {
@@ -316,18 +316,23 @@ export default class CustomCanvas {
   }
 
   registerScalingHandler() {
-    const handler = () => {
+    const fitToParent = () => {
       const container = this.stageConfig.container as HTMLDivElement;
 
       const containerWidth = container.offsetWidth;
       const scale = containerWidth / this.getCanvasWidth();
 
-      if (containerWidth < this.getCanvasWidth()) {
-        // Move info label position
-        // Update static graph elements
-        this.staticGroup.width(this.getCanvasWidth() * scale);
-        this.staticGroup.height(this.getCanvasHeight() * scale);
-        this.staticGroup.scale({ x: scale, y: scale });
+      // Move info label position
+      // Update static graph elements
+      if (scale < this.stage.scaleX()) {
+        console.table({
+          containerWidth,
+          canvas: this.getCanvasWidth(),
+          scale,
+        });
+        this.stage.width(this.getCanvasWidth() * scale);
+        this.stage.height(this.getCanvasHeight() * scale);
+        this.stage.scale({ x: scale, y: scale });
         let fontSize = 24;
         if (containerWidth < 600) {
           fontSize = 40;
@@ -340,13 +345,15 @@ export default class CustomCanvas {
 
           text.fontSize(fontSize);
         });
-
-        this.stage.height(this.getCanvasHeight() * scale);
-        this.stage.width(this.getCanvasWidth() * scale);
+        // this.stage.height(this.getCanvasHeight() * scale);
+        // this.stage.width(this.getCanvasWidth() * scale);
+        // this.stage.scale({ x: scale, y: scale });
+        console.log(`container width ${containerWidth}`);
+        console.log(`canvas width ${this.getCanvasWidth()}`);
       }
     };
 
-    new ResizeObserver(handler).observe(this.stageConfig.container as HTMLDivElement);
+    new ResizeObserver(fitToParent).observe(this.stageConfig.container as HTMLDivElement);
   }
 
   draw() {

@@ -104,5 +104,5 @@
 
 <div
   bind:this={canvasElement}
-  class="w-full mx-auto my-8 flex items-center space-x-4"
+  class="outline outline-1 outline-override-neutral-50/50 w-full mx-auto my-8 flex items-center space-x-4"
 />
