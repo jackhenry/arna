@@ -26,11 +26,10 @@ const theme = {
       'spin-slow': 'spin 4s linear infinite',
     },
     gridTemplateColumns: {
-      custom: 'repeat(auto-fit, minmax(80px, 1fr))',
+      custom: 'repeat(auto-fit, minmax(70px, 1fr))',
     },
     colors: {
       override: customColorPalette,
-      cm: customColorPalette,
     },
   },
   fontFamily: {
