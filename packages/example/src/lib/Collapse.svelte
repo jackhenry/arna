@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import ExpandMoreIcon from "../assets/ArrowIcon.svelte";
+  import ArrowIcon from "../assets/ArrowIcon.svelte";
 
   let show: boolean = false;
   let rootElement: HTMLDivElement;
@@ -43,7 +43,7 @@
   >
     <div class="flex justify-between px-2">
       <slot name="label" />
-      <ExpandMoreIcon
+      <ArrowIcon
         bind:svgElement
         class="fill-override-neutral-50 justify-self-end transition"
       />
