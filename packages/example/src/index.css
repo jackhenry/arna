@@ -13,7 +13,10 @@
 .CodeMirror {
   @apply !bg-override-neutral-900/30;
   @apply !outline outline-1 outline-override-neutral-50/50;
-  @apply !max-h-[375px];
+}
+
+#code-wrapper > .CodeMirror {
+  @apply md:!h-[400px];
 }
 
 .CodeMirror-gutters {
@@ -25,7 +28,7 @@
 }
 
 .cm-property {
-  @apply !text-override-green/75
+  @apply !text-override-green
 }
 
 .cm-atom {
