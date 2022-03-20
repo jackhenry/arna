@@ -1,6 +1,6 @@
 const customColorPalette = {
   purple: '#A21CAF',
-  green: '#22C55E',
+  green: '#22cb5b',
   blue: '#00AFCA',
   yellow: '#FEC604',
   red: '#BE123C',
