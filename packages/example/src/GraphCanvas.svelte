@@ -75,8 +75,8 @@
     const semanticAnalyzer = new ArnaAstSemanticAnalyzer(layoutParameters);
     const graph = semanticAnalyzer.analyze(ast);
     // Create the canvas and draw
-    const height = 1400;
-    const width = 1400;
+    const height = 1200;
+    const width = 1200;
     const stageConfig: Konva.StageConfig = {
       container: canvasElement,
       height: height,
