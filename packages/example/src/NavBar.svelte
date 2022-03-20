@@ -5,7 +5,7 @@
 <div class="text-override-bg overflow-hidden bg-override-yellow relative p-1">
   <div class="w-full flex">
     <div class="flex-grow">
-      <span class="font-semibold">күнім - Jack Henry</span>
+      <span class="font-semibold">күнім</span>
     </div>
     <div class="">
       <a href="https://github.com/jackhenry/arna"
