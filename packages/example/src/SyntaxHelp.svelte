@@ -38,10 +38,10 @@
 
 <div
   bind:this={parentElement}
-  class="rounded flex flex-col w-full p-4 mb-2 bg-override-neutral-800/30 outline-thin"
+  class="rounded flex flex-col w-full p-4 mb-2 bg-override-neutral-900/30 leading-7 outline-thin"
 >
   <textarea use:snippet={"graph Name [bundle] {"} />
-  <span class="mt-2"
+  <span class="my-2"
     >To begin defining a graph, use the <H>graph</H> keyword followed by the name
     of the graph. Following the name of the graph, you may choose to include the
     <H>[bundle]</H> attribute. Including this will enable edge bundling.</span
@@ -56,7 +56,7 @@
     of the node can be defined.</span
   >
   <br />
-  <span>
+  <span class="my-2">
     The <H>color</H> attribute specifies the color of the graph vertex when drawn.
     You may use RGB, RGBA, Hex, or other color formats supported by CSS3. The <H
       >label</H
@@ -73,7 +73,7 @@
     treated as the tail of the edge. While <H>N5</H> is treated as the head.</span
   >
   <br />
-  <span
+  <span class="my-2"
     >The current supported attributes for edge declarations include <H
       >line-width</H
     > and <H>color</H>. <H>line-width</H> defines the width of the rendered edge
