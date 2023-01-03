@@ -27,4 +27,3 @@ the graph layout algorithm and graph data structures.
 
 
 <!-- GETTING STARTED -->
-<div align="center">менің күнім</div>
