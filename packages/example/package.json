@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite --force",
     "build": "vite build --base=/arna/",
-    "clean": "rm -r ./dist/*",
+    "clean": "rimraf ./dist/*",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
