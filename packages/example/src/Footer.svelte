@@ -7,7 +7,7 @@
     >
       <span class="hover:text-override-blue">by jack henry</span>
     </a>
-    <a href="https://jackhenry.github.io/" class="hover:text-override-yellow">
+    <a href="https://jackerickson.net/" class="hover:text-override-yellow">
       <span>hire me</span>
     </a>
   </div>
